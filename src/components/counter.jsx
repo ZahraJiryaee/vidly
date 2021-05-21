@@ -4,7 +4,10 @@ class Counter extends Component {
     state = {  }
     render() { 
         return ( 
-            <h1>hele done done done</h1>
+            <React.Fragment>
+                <h1>hele done done done</h1>
+                <button>Increment</button>
+            </React.Fragment>
          );
     }
 }
