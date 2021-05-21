@@ -4,7 +4,14 @@ class Counter extends Component {
     state = { 
         count: 0,
         tags: ['tag1', 'tag2', 'tag3']
-     }
+    }
+
+    /*
+    constructor(){
+        super();
+        this.handleIncrement = this.handleIncrement.bind(this); // bc constructor has access to this
+    }
+    */
 
     render() {         
         
@@ -19,7 +26,8 @@ class Counter extends Component {
     }
 
     handleIncrement = () => {
-        console.log("clicked!",this);
+    //  this.state.count ++   //this isn't gonna work
+     this.setState({count: this.state.count + 1})   
     }
 
     renderTags(){
