@@ -1,11 +1,25 @@
 import React, { Component } from "react";
 import Movies from "./components/movies";
-import Counters from "./components/counters";
-import NavBar from "./components/navbar";
+// import Counters from "./components/counters";
+// import NavBar from "./components/navbar";
 import "./App.css";
 
 class App extends Component {
-  state = {
+  // vidly app
+
+  render() {
+    return (
+      <React.Fragment>
+        <main className="container">
+          <Movies />
+        </main>
+      </React.Fragment>
+    );
+  }
+
+  // counter example
+  /* 
+    state = {
     counters: [
       { id: 1, value: 4 },
       { id: 2, value: 0 },
@@ -63,6 +77,8 @@ class App extends Component {
       </React.Fragment>
     );
   }
+
+  */
 }
 
 export default App;
