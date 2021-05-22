@@ -3,7 +3,7 @@ import React, { Component } from "react";
 class Counter extends Component {
   state = {
     // count: 0,
-    value: this.props.value,
+    value: this.props.counter.value,
     tags: ["tag1", "tag2", "tag3"],
   };
 
@@ -15,7 +15,7 @@ class Counter extends Component {
     */
 
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     return (
       <React.Fragment>
         {this.props.children}
@@ -26,6 +26,12 @@ class Counter extends Component {
           className="btn btn-secondary btn-sm"
         >
           Increment
+        </button>
+        <button
+          onClick={() => this.props.onDelete(this.props.counter.id)}
+          className="btn btn-danger btn-sm m-2"
+        >
+          Delete
         </button>
         {this.state.tags.length === 0 && "please create a new tag!"}
         {this.renderTags()}
