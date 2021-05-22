@@ -18,13 +18,27 @@ class Counters extends Component {
     this.setState({ counters });
   };
 
+  handleReset() {}
+
+  handleIncrement = (counter) => {
+    const counters = [...this.state.counters];
+    const index = counters.indexOf(counter);
+    counters[index] = { ...counter }; // without this line we are modifying the state directly (we should clone the obj at the given location to get an different obj)
+    counters[index].value++;
+    this.setState({ counters });
+  };
+
   render() {
     return (
       <React.Fragment>
+        <button onClick={this.handleReset} className="btn btn-primary">
+          Reset
+        </button>
         {this.state.counters.map((counter) => (
           <Counter
             key={counter.id}
             onDelete={this.handleDelete}
+            onIncrement={this.handleIncrement}
             counter={counter}
           >
             <h4>Counter {counter.id}</h4>
