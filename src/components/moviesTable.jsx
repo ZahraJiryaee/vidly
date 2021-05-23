@@ -11,10 +11,29 @@ class MoviesTable extends Component {
     { path: "genre.name", label: "Genre" },
     { path: "numberInStock", label: "Stock" },
     { path: "dailyRentalRate", label: "Rate" },
-    { key: "like" },
-    { key: "delete" },
+    {
+      key: "like",
+      content: (movie) => (
+        <Like
+          liked={movie.liked}
+          onLikeToggle={() => this.props.onLike(movie)}
+        />
+      ),
+    },
+    {
+      key: "delete",
+      content: (movie) => (
+        <button
+          onClick={() => this.props.ondelete(movie)}
+          className="btn btn-danger btn-sm"
+        >
+          Delete
+        </button>
+      ),
+    },
   ];
-  //   doesn't have to be part of the state bc it's not gonna change through the lifecycle of the component
+  // doesn't have to be part of the state bc it's not gonna change through the lifecycle of the component
+  // <like></Like> => this is also a plain js obj. and we can pass any objs to functions and use them a values of propertie.
 
   render() {
     const { movies, sortColumn, ondelete, onLike, onSort } = this.props;
@@ -26,28 +45,7 @@ class MoviesTable extends Component {
           sortColumn={sortColumn}
           onSort={onSort}
         />
-        <TableBody data={movies} />
-        <tbody>
-          {movies.map((movie) => (
-            <tr key={movie._id}>
-              <td>{movie.title}</td>
-              <td>{movie.genre.name}</td>
-              <td>{movie.numberInStock}</td>
-              <td>{movie.dailyRentalRate}</td>
-              <td>
-                <Like liked={movie.liked} onLikeToggle={() => onLike(movie)} />
-              </td>
-              <td>
-                <button
-                  onClick={() => ondelete(movie)}
-                  className="btn btn-danger btn-sm"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
+        <TableBody data={movies} columns={this.columns} />
       </table>
     );
   }
