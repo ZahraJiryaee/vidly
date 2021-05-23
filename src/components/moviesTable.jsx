@@ -1,39 +1,30 @@
 // this is not a reusable component. it's just set to have symmetry and consistenct in movies.jsx (the return is not mixture of high and low level components anymore)
 
 import React, { Component } from "react";
+import TableHeader from "./common/tableHeader";
 import Like from "./common/like";
 
 class MoviesTable extends Component {
-  state = {};
-
-  raiseSort = (path) => {
-    // if the path is as the in sortColumn.path, we reverse the sort order otherwise: update the path and set the order to 'asc'
-    const sortColumn = { ...this.props.sortColumn };
-    if (sortColumn.path === path)
-      sortColumn.order = sortColumn.order === "asc" ? "desc" : "asc";
-    else {
-      sortColumn.path = path;
-      sortColumn.order = "asc";
-    }
-
-    this.props.onSort(sortColumn);
-  };
+  columns = [
+    { path: "title", label: "Title" },
+    { path: "genre.name", label: "Genre" },
+    { path: "numberInStock", label: "Stock" },
+    { path: "dailyRentalRate", label: "Rate" },
+    { key: "like" },
+    { key: "delete" },
+  ];
+  //   doesn't have to be part of the state bc it's not gonna change through the lifecycle of the component
 
   render() {
-    const { movies, ondelete, onLike } = this.props;
+    const { movies, sortColumn, ondelete, onLike, onSort } = this.props;
 
     return (
       <table className="table">
-        <thead>
-          <tr>
-            <th onClick={() => this.raiseSort("title")}>Title</th>
-            <th onClick={() => this.raiseSort("genre.name")}>Genre</th>
-            <th onClick={() => this.raiseSort("numberInStock")}>Stock</th>
-            <th onClick={() => this.raiseSort("dailyRentalRate")}>Rate</th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
+        <TableHeader
+          columns={this.columns}
+          sortColumn={sortColumn}
+          onSort={onSort}
+        />
         <tbody>
           {movies.map((movie) => (
             <tr key={movie._id}>
