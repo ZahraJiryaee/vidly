@@ -17,4 +17,11 @@ const ListGroup = (props) => {
   );
 };
 
+// we can assume that most of our objs have these 2 properties (name & _id). so we can set the default value for this props and we always can overwrite them.
+
+ListGroup.defaultProps = {
+  textProperty: "name",
+  valueProperty: "_id",
+};
+
 export default ListGroup;
