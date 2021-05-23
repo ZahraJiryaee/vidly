@@ -5,7 +5,7 @@ import Pagination from "./common/pagination";
 import { getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
 import { paginate } from "./../utils/paginate";
-import _ from "lodash"; // to implement sorting on client
+import _, { filter } from "lodash"; // to implement sorting on client
 
 class Movies extends Component {
   state = {
@@ -52,8 +52,7 @@ class Movies extends Component {
     this.setState({ sortColumn });
   };
 
-  render() {
-    const { length: count } = this.state.movies;
+  getPagedData() {
     const {
       pageSize,
       currentPage,
@@ -61,8 +60,6 @@ class Movies extends Component {
       sortColumn,
       movies: allMovies,
     } = this.state;
-
-    if (count === 0) return <p>there are no movies!!</p>;
 
     /* filter - sort - paginate */
     // 1
@@ -79,6 +76,17 @@ class Movies extends Component {
     // const movies = paginate(filtered, currentPage, pageSize);
     const movies = paginate(sorted, currentPage, pageSize);
 
+    return { totalCount: filtered.length, data: movies };
+  }
+
+  render() {
+    const { length: count } = this.state.movies;
+    const { pageSize, currentPage, sortColumn } = this.state;
+
+    if (count === 0) return <p>there are no movies!!</p>;
+
+    const { totalCount, data: movies } = this.getPagedData();
+
     return (
       <div className="row">
         <div className="col-3">
@@ -89,7 +97,7 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
-          <p>there are {filtered.length} movies in the database!</p>
+          <p>there are {totalCount} movies in the database!</p>
           {count === 0 && "there are no movies!!"}
           <MoviesTable
             movies={movies}
@@ -100,7 +108,7 @@ class Movies extends Component {
           />
           <Pagination
             // itemsCount={count}
-            itemsCount={filtered.length}
+            itemsCount={totalCount}
             pageSize={pageSize}
             currentPage={currentPage}
             onPageChange={this.handlePageChange}
