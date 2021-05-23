@@ -1,7 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
 import _ from "lodash"; // _ is common bc lodash is an optimized version of library called underscore
-
-//
 
 const Pagination = (props) => {
   const { itemsCount, pageSize, currentPage, onPageChange } = props;
@@ -29,6 +28,18 @@ const Pagination = (props) => {
       </ul>
     </nav>
   );
+};
+
+// after we define our component, we need to add a new property to it and with this property we define type checking requirements for this component
+// propTypes is case sensitive
+// add props of this component & their type & wether their required or not
+// https://reactjs.org/docs/typechecking-with-proptypes.html => comprehensive list of propTypes
+// advantages => catch bugs related totype checking (specially reusable components) - it's some kind of doc. ypu don't have to look at render method to know what props you should give to this compo
+Pagination.propTypes = {
+  itemsCount: PropTypes.number.isRequired,
+  pageSize: PropTypes.number.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  onPageChange: PropTypes.func.isRequired,
 };
 
 export default Pagination;
