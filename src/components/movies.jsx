@@ -45,12 +45,22 @@ class Movies extends Component {
 
   render() {
     const { length: count } = this.state.movies;
-    const { pageSize, currentPage, movies: allMovies } = this.state;
+    const {
+      pageSize,
+      currentPage,
+      selectedGenre,
+      movies: allMovies,
+    } = this.state;
 
     if (count === 0) return <p>there are no movies!!</p>;
 
+    const filtered = selectedGenre
+      ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
+      : allMovies;
     // instead of rendering this.state.movies.map, we render the below array
-    const movies = paginate(allMovies, currentPage, pageSize);
+    // const movies = paginate(allMovies, currentPage, pageSize);
+    // allMovies => filtered , count => filtered.length
+    const movies = paginate(filtered, currentPage, pageSize);
 
     return (
       <div className="row">
@@ -62,7 +72,7 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
-          <p>there are {count} movies in the database!</p>
+          <p>there are {filtered.length} movies in the database!</p>
           {count === 0 && "there are no movies!!"}
           <table className="table">
             <thead>
@@ -79,9 +89,9 @@ class Movies extends Component {
               {movies.map((movie) => (
                 <tr key={movie._id}>
                   <td>{movie.title}</td>
-                  <td>{movie.title}</td>
-                  <td>{movie.title}</td>
-                  <td>{movie.title}</td>
+                  <td>{movie.genre.name}</td>
+                  <td>{movie.numberInStock}</td>
+                  <td>{movie.dailyRentalRate}</td>
                   <td>
                     <Like
                       liked={movie.liked}
@@ -101,7 +111,8 @@ class Movies extends Component {
             </tbody>
           </table>
           <Pagination
-            itemsCount={count}
+            // itemsCount={count}
+            itemsCount={filtered.length}
             pageSize={pageSize}
             currentPage={currentPage}
             onPageChange={this.handlePageChange}
