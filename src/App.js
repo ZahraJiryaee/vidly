@@ -4,6 +4,7 @@ import Movies from "./components/movies";
 import Customers from "./components/customers";
 import Rental from "./components/rentals";
 import NotFound from "./components/notFound";
+import NavBar from "./components/navBar";
 import "./App.css";
 
 class App extends Component {
@@ -12,6 +13,7 @@ class App extends Component {
   render() {
     return (
       <React.Fragment>
+        <NavBar />
         <main className="container">
           {/* Route[path][component]*4 => zen coding - in order to work: change the file extension to .jsx or change the language of the page from js to js react */}
           <Switch>
