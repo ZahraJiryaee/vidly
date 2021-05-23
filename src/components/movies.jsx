@@ -17,7 +17,7 @@ class Movies extends Component {
   };
 
   componentDidMount() {
-    const genres = [{ name: "All Genres" }, ...getGenres()];
+    const genres = [{ _id: "", name: "All Genres" }, ...getGenres()];
     this.setState({ movies: getMovies(), genres });
   }
 
@@ -60,7 +60,7 @@ class Movies extends Component {
 
     if (count === 0) return <p>there are no movies!!</p>;
 
-    // if the genre is selected and that genre has an id we filter it otherwise we return allMovies
+    // if the genre is selected and that genre has an id (empty string is also falsy) we filter it otherwise we return allMovies
     const filtered =
       selectedGenre && selectedGenre._id
         ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
