@@ -24,7 +24,7 @@ class MoviesTable extends Component {
       key: "delete",
       content: (movie) => (
         <button
-          onClick={() => this.props.ondelete(movie)}
+          onClick={() => this.props.onDelete(movie)}
           className="btn btn-danger btn-sm"
         >
           Delete
@@ -36,7 +36,7 @@ class MoviesTable extends Component {
   // <like></Like> => this is also a plain js obj. and we can pass any objs to functions and use them a values of propertie.
 
   render() {
-    const { movies, sortColumn, ondelete, onLike, onSort } = this.props;
+    const { movies, sortColumn, onSort } = this.props;
 
     return (
       <table className="table">
