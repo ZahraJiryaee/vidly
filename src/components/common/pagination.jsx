@@ -4,7 +4,8 @@ import _ from "lodash"; // _ is common bc lodash is an optimized version of libr
 //
 
 const Pagination = (props) => {
-  const { itemsCount, pageSize } = props;
+  const { itemsCount, pageSize, currentPage, onPageChange } = props;
+  console.log("currentPage:", currentPage);
   const pagesCount = Math.ceil(itemsCount / pageSize);
   //based on this number we're gonna create an array and then map that array to "li"s to create dynmic pages
   //[1...pagesCount].map() -- use lodash for that
@@ -16,8 +17,13 @@ const Pagination = (props) => {
     <nav>
       <ul className="pagination">
         {pages.map((page) => (
-          <li key={page} className="page-item">
-            <a className="page-link">{page}</a>
+          <li
+            key={page}
+            className={page === currentPage ? "page-item active" : "page-item"}
+          >
+            <a className="page-link" onClick={() => onPageChange(page)}>
+              {page}
+            </a>
           </li>
         ))}
       </ul>
