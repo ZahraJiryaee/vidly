@@ -5,6 +5,7 @@ import Pagination from "./common/pagination";
 import { getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
 import { paginate } from "./../utils/paginate";
+import _ from "lodash"; // to implement sorting on client
 
 class Movies extends Component {
   state = {
@@ -14,6 +15,8 @@ class Movies extends Component {
     currentPage: 1,
 
     genres: [],
+
+    sortColumn: { path: "title", order: "asc" },
   };
 
   componentDidMount() {
@@ -46,7 +49,15 @@ class Movies extends Component {
   };
 
   handleSort = (path) => {
-    console.log(path);
+    // if the path is as the in sortColumn.path, we reverse the sort order otherwise: update the path and set the order to 'asc'
+    const sortColumn = { ...this.state.sortColumn };
+    if (sortColumn.path === path)
+      sortColumn.order = sortColumn.order === "asc" ? "desc" : "asc";
+    else {
+      sortColumn.path = path;
+      sortColumn.order = "asc";
+    }
+    this.setState({ sortColumn });
   };
 
   render() {
@@ -55,20 +66,26 @@ class Movies extends Component {
       pageSize,
       currentPage,
       selectedGenre,
+      sortColumn,
       movies: allMovies,
     } = this.state;
 
     if (count === 0) return <p>there are no movies!!</p>;
 
+    /* filter - sort - paginate */
+    // 1
     // if the genre is selected and that genre has an id (empty string is also falsy) we filter it otherwise we return allMovies
     const filtered =
       selectedGenre && selectedGenre._id
         ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
         : allMovies;
+    // 2
+    const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
+    // 3
     // instead of rendering this.state.movies.map, we render the below array
-    // const movies = paginate(allMovies, currentPage, pageSize);
-    // allMovies => filtered , count => filtered.length
-    const movies = paginate(filtered, currentPage, pageSize);
+    // const movies = paginate(allMovies, currentPage, pageSize);  =>   allMovies => filtered , count => filtered.length
+    // const movies = paginate(filtered, currentPage, pageSize);
+    const movies = paginate(sorted, currentPage, pageSize);
 
     return (
       <div className="row">
