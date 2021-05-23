@@ -48,15 +48,7 @@ class Movies extends Component {
     this.setState({ selectedGenre: genre, currentPage: 1 });
   };
 
-  handleSort = (path) => {
-    // if the path is as the in sortColumn.path, we reverse the sort order otherwise: update the path and set the order to 'asc'
-    const sortColumn = { ...this.state.sortColumn };
-    if (sortColumn.path === path)
-      sortColumn.order = sortColumn.order === "asc" ? "desc" : "asc";
-    else {
-      sortColumn.path = path;
-      sortColumn.order = "asc";
-    }
+  handleSort = (sortColumn) => {
     this.setState({ sortColumn });
   };
 
@@ -101,6 +93,7 @@ class Movies extends Component {
           {count === 0 && "there are no movies!!"}
           <MoviesTable
             movies={movies}
+            sortColumn={sortColumn}
             onLike={this.handleLike}
             onDelete={this.handleDelete}
             onSort={this.handleSort}
