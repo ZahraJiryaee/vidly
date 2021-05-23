@@ -7,7 +7,7 @@ class Movies extends Component {
   state = {
     movies: getMovies(),
     // movies: [],
-    pageSize: 4,
+    pageSize: 10,
   };
 
   handleDelete = (movie) => {
