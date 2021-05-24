@@ -1,11 +1,12 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import MoviesTable from "./moviesTable";
 import ListGroup from "./common/listGroup";
 import Pagination from "./common/pagination";
 import { getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
 import { paginate } from "./../utils/paginate";
-import _, { filter } from "lodash"; // to implement sorting on client
+import _, { filter, reduceRight } from "lodash"; // to implement sorting on client
 
 class Movies extends Component {
   state = {
@@ -97,6 +98,14 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
+          <Link
+            to="/movies/new"
+            className="btn btn-primary"
+            style={{ marginBottom: 20 }}
+          >
+            New Movie
+          </Link>
+
           <p>there are {totalCount} movies in the database!</p>
           {count === 0 && "there are no movies!!"}
           <MoviesTable
