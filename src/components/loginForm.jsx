@@ -10,8 +10,8 @@ class LoginForm extends Component {
   //   username = React.createRef();
 
   schema = {
-    username: Joi.string().required(),
-    password: Joi.string().required(),
+    username: Joi.string().required().label("Username"),
+    password: Joi.string().required().label("Password"),
   };
 
   componentDidMount() {
@@ -19,10 +19,15 @@ class LoginForm extends Component {
   }
 
   validate = () => {
-    const result = Joi.validate(this.state.account, this.schema, {
-      abortEarly: false,
-    });
+    const options = { abortEarly: false };
+    const result = Joi.validate(this.state.account, this.schema, options);
     console.log(result);
+    if (!result.error) return null;
+
+    const errors = {};
+    for (let item of result.error.details) errors[item.path[0]] = item.message;
+    return errors;
+    /*
     const errors = {};
     const { account } = this.state;
     if (account.username.trim() === "")
@@ -30,6 +35,8 @@ class LoginForm extends Component {
     if (account.password.trim() === "")
       errors.password = "Password is required.";
     return Object.keys(errors).length === 0 ? null : errors;
+
+     */
   };
 
   validateProperty = ({ name, value }) => {
