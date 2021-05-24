@@ -2,11 +2,19 @@ import React, { Component } from "react";
 
 class LoginForm extends Component {
   state = {};
+
+  handleSubmit = (e) => {
+    e.preventDefault(); // full page reload
+
+    //   call the server, save the changes, redirect the user to a different page
+    console.log("Submitted");
+  };
+
   render() {
     return (
       <div>
         <h1>Login</h1>
-        <form>
+        <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label htmlFor="username">Username</label>
             <input id="username" type="text" className="form-control" />
