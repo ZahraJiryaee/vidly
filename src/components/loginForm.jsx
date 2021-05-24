@@ -29,7 +29,7 @@ class LoginForm extends Component {
 
     const errors = this.validate();
     console.log(errors);
-    this.setState({ errors });
+    this.setState({ errors: errors || {} }); // error property shiould always be set to an obj
     if (errors) return;
     // call the server, save the changes, redirect the user to a different page
     console.log("Submitted");
@@ -42,7 +42,7 @@ class LoginForm extends Component {
   };
 
   render() {
-    const { account } = this.state;
+    const { account, errors } = this.state;
     return (
       <div>
         <h1>Login</h1>
@@ -51,12 +51,14 @@ class LoginForm extends Component {
             name="username"
             value={account.username}
             label="Username"
+            error={errors.username}
             onChange={this.handleChange}
           />
           <Input
             name="password"
             value={account.password}
             label="Password"
+            error={errors.password}
             onChange={this.handleChange}
           />
 
