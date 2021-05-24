@@ -4,6 +4,7 @@ import Input from "./common/input";
 class LoginForm extends Component {
   state = {
     account: { username: "", password: "" },
+    errors: {},
   };
   //   username = React.createRef();
 
@@ -11,11 +12,19 @@ class LoginForm extends Component {
     // this.username.current.focus();
   }
 
+  validate = () => {
+    return { username: "Username is required." };
+  };
+
   handleSubmit = (e) => {
     e.preventDefault(); // full page reload
 
-    // call the server, save the changes, redirect the user to a different page
     // const username = this.username.current.value;
+
+    const errors = this.validate();
+    this.setState({ errors });
+    if (errors) return;
+    // call the server, save the changes, redirect the user to a different page
     console.log("Submitted");
   };
 
