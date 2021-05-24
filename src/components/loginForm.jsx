@@ -11,7 +11,7 @@ class LoginForm extends Component {
 
   schema = {
     username: Joi.string().required().label("Username"),
-    password: Joi.string().required().label("Password"),
+    password: Joi.string().required().min(3).label("Password"),
   };
 
   componentDidMount() {
@@ -40,12 +40,22 @@ class LoginForm extends Component {
   };
 
   validateProperty = ({ name, value }) => {
+    // const obj = { username: value};
+    const obj = { [name]: value };
+    console.log("obj", obj);
+    const schema = { [name]: this.schema[name] };
+    console.log("schema", schema);
+    const { error } = Joi.validate(obj, schema);
+    console.log("val-prop", { error });
+    return error ? error.details[0].message : null;
+    /*
     if (name === "username") {
       if (value.trim() === "") return "Required";
     }
     if (name === "password") {
       if (value.trim() === "") return "Required";
     }
+     */
   };
 
   handleSubmit = (e) => {
