@@ -81,7 +81,8 @@ class Movies extends Component {
         m.title.toLowerCase().startsWith(searchQuery.toLowerCase())
       );
     } else if (selectedGenre && selectedGenre._id) {
-      allMovies.filter((m) => m.genre._id === selectedGenre._id);
+      filtered = allMovies.filter((m) => m.genre._id === selectedGenre._id);
+      console.log("else if");
     }
 
     // 2
