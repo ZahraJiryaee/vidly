@@ -2,7 +2,9 @@ import React from "react";
 import Joi from "joi-browser";
 import Form from "./common/form";
 import { saveMovie, getMovie } from "../services/fakeMovieService";
+// import { saveMovie, getMovie } from "../services/movieService";
 import { getGenres } from "../services/fakeGenreService";
+// import { getGenres } from "../services/genreService";
 
 class MovieForm extends Form {
   state = {
@@ -34,6 +36,7 @@ class MovieForm extends Form {
 
   componentDidMount = () => {
     const genres = getGenres();
+
     this.setState({ genres });
 
     const movieId = this.props.match.params.id;
@@ -43,12 +46,38 @@ class MovieForm extends Form {
     if (!movie) return this.props.history.replace("/not-found");
 
     this.setState({ data: this.mapToViewModel(movie) });
+
     /* 
     the restful apis on the server are general purpose. they are not build for a specific page. so their data 
     is used on several pages. each page needs a piece of that data and it's also possible the data we wanna 
     show on the page is a little bit different from the structure of that data
      */
+
+    // await this.populateGenres();
+    // await this.populateMovie();
+    // **** decorate the function with async ****
   };
+
+  async populateGenres() {
+    const { data: genres } = await getGenres();
+    this.setState({ genres });
+  }
+
+  async populateMovie() {
+    /*
+    try {
+      const movieId = this.props.match.params.id;
+      if (movieId === "new") return;
+
+      const { data: movie } = await getMovie(movieId);
+      this.setState({ data: this.mapToViewModel(movie) });
+    } catch (ex) {
+      if (ex.response && response.status === 404) {
+        this.props.replace("/not-found");
+      }
+    }    
+    */
+  }
 
   mapToViewModel = (movie) => {
     return {
@@ -63,6 +92,8 @@ class MovieForm extends Form {
   doSubmit = () => {
     // call the server, save the changes, redirect the user to a different page
     saveMovie({ ...this.state.data });
+    // await saveMovie({ ...this.state.data });
+    // add async decorator to the function
     this.props.history.push("/movies");
   };
 
